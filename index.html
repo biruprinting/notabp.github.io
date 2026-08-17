@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Generator - Biru Printing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">BP</div>
+                <div>
+                    <h1>Biru Printing</h1>
+                    <span>Nota Generator</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="buat">
+                <span>📝</span>
+                <small>Buat Nota</small>
+            </button>
+
+            <button class="nav-item" data-page="riwayat">
+                <span>📋</span>
+                <small>Riwayat</small>
+            </button>
+
+            <button class="nav-item" data-page="pengaturan">
+                <span>⚙️</span>
+                <small>Pengaturan</small>
+            </button>
+        </nav>
+
+        <main class="content">
+
+            <!-- ==================== -->
+            <!-- BUAT NOTA             -->
+            <!-- ==================== -->
+            <section id="page-buat" class="page active">
+
+                <div class="page-title">
+                    <h2>Buat Nota</h2>
+                    <p>Buat nota baru dengan cepat</p>
+                </div>
+
+                <!-- INFORMASI NOTA -->
+                <div class="card">
+                    <div class="card-title">
+                        <h3>Informasi Nota</h3>
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal Order</label>
+                            <input type="date" id="tanggal">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="namaPelanggan">Nama Pelanggan</label>
+                            <input
+                                type="text"
+                                id="namaPelanggan"
+                                placeholder="Masukkan nama pelanggan"
+                                autocomplete="off"
+                            >
+                            <div id="customerSuggestions" class="suggestions"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="nota-number">
+                        <span>No. Nota</span>
+                        <strong id="nomorNota">BP-000000-001</strong>
+                    </div>
+                </div>
+
+                <!-- ITEM PESANAN -->
+                <div class="card">
+                    <div class="card-title card-title-between">
+                        <div>
+                            <h3>Item Pesanan</h3>
+                            <p>Tambahkan semua pesanan pelanggan</p>
+                        </div>
+
+                        <span id="itemCount" class="badge">1 Item</span>
+                    </div>
+
+                    <div id="itemsContainer"></div>
+
+                    <button id="btnTambahItem" class="btn btn-outline">
+                        + Tambah Item
+                    </button>
+                </div>
+
+                <!-- PEMBAYARAN -->
+                <div class="card">
+                    <div class="card-title">
+                        <h3>Pembayaran</h3>
+                    </div>
+
+                    <div class="payment-row">
+                        <span>Subtotal</span>
+                        <strong id="subtotal">Rp 0</strong>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diskon">Diskon</label>
+                        <input
+                            type="number"
+                            id="diskon"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+                    </div>
+
+                    <div class="total-box">
+                        <span>Total Bayar</span>
+                        <strong id="totalBayar">Rp 0</strong>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="uangDiterima">Uang Diterima</label>
+                        <input
+                            type="number"
+                            id="uangDiterima"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+                    </div>
+
+                    <div class="payment-result">
+                        <span id="paymentLabel">Kekurangan</span>
+                        <strong id="paymentValue">Rp 0</strong>
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="action-buttons">
+                    <div class="form-actions">
+                        <button
+                            type="button"
+                            id="btnNotaBaru"
+                            class="btn btn-outline"
+                        >
+                            🔄 Nota Baru
+                        </button>
+                        <button
+                            type="button"
+                            id="btnPreview"
+                            class="btn btn-outline"
+                        >
+                            👁️ Preview Nota
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnSimpan"
+                            class="btn btn-primary"
+                        >
+                            💾 Simpan Nota
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ==================== -->
+            <!-- RIWAYAT               -->
+            <!-- ==================== -->
+            <section id="page-riwayat" class="page">
+
+                <div class="page-title">
+                    <h2>Riwayat Nota</h2>
+                    <p>Nota yang tersimpan di perangkat ini</p>
+                </div>
+
+                <div class="card">
+                    <div class="search-box">
+                        <input
+                            type="search"
+                            id="searchRiwayat"
+                            placeholder="Cari nama pelanggan atau nomor nota..."
+                        >
+                    </div>
+
+                    <div id="riwayatContainer" class="history-list">
+                        <div class="empty-state">
+                            <div>📋</div>
+                            <h3>Belum ada nota</h3>
+                            <p>Nota yang disimpan akan muncul di sini.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <h3>Backup Data</h3>
+                    </div>
+
+                    <p class="description">
+                        Gunakan fitur ini untuk menyimpan atau memindahkan
+                        data nota ke perangkat lain.
+                    </p>
+
+                    <div class="backup-buttons">
+                        <button id="btnExport" class="btn btn-outline">
+                            ↓ Export Data
+                        </button>
+
+                        <button id="btnImport" class="btn btn-outline">
+                            ↑ Import Data
+                        </button>
+
+                        <input
+                            type="file"
+                            id="importFile"
+                            accept=".json"
+                            hidden
+                        >
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ==================== -->
+            <!-- PENGATURAN            -->
+            <!-- ==================== -->
+            <section id="page-pengaturan" class="page">
+
+                <div class="page-title">
+                    <h2>Pengaturan</h2>
+                    <p>Atur identitas nota Biru Printing</p>
+                </div>
+
+                <div class="card">
+
+                    <div class="form-group">
+                        <label for="namaUsaha">Nama Usaha</label>
+                        <input
+                            type="text"
+                            id="namaUsaha"
+                            value="Biru Printing"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deskripsiUsaha">Deskripsi</label>
+                        <input
+                            type="text"
+                            id="deskripsiUsaha"
+                            value="Spesialis Undangan Cetak dan Digital"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nomorWhatsApp">Nomor WhatsApp</label>
+                        <input
+                            type="text"
+                            id="nomorWhatsApp"
+                            placeholder="08xxxxxxxxxx"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="footerNota">Footer Nota</label>
+                        <textarea
+                            id="footerNota"
+                            rows="3"
+                            placeholder="Terima kasih telah mempercayai Biru Printing."
+                        ></textarea>
+                    </div>
+
+                    <button id="btnSimpanPengaturan" class="btn btn-primary">
+                        💾 Simpan Pengaturan
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <div
+        id="previewModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>
+                    Preview Nota
+                </h2>
+
+                <button
+                    type="button"
+                    id="btnClosePreview"
+                    class="modal-close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                id="notaPreview"
+                class="nota-preview"
+            >
+            </div>
+
+
+            <div class="preview-actions">
+
+                <button
+                    type="button"
+                    id="btnCopyNota"
+                    class="btn btn-primary"
+                >
+                    📋 Salin Nota
+                </button>
+
+                <button
+                    type="button"
+                    id="btnDownloadPNG"
+                    class="btn btn-outline"
+                >
+                    🖼️ Simpan PNG
+                </button>
+
+                <button
+                    type="button"
+                    id="btnClosePreview2"
+                    class="btn btn-outline"
+                >
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<div id="toastContainer" class="toast-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="script.js"></script>
+ 
+</body>
+</html>
